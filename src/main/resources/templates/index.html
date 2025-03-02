@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users Management</title>
+    <title>Страница управления пользователями</title>
     <style>
         * {
             margin: 0;
@@ -122,6 +122,18 @@
             background-color: #27ae60;
         }
 
+        .btn-logout {
+            background-color: cyan;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .btn-logout:hover {
+            background-color: cyan;
+        }
+
         .divider {
             height: 1px;
             background-color: #eee;
@@ -145,14 +157,14 @@
 <body>
 <div class="container">
     <div class="header">
-        <h1>Users Management</h1>
-        <p>View, edit and manage your users</p>
+        <h1>Страница управления пользователями</h1>
+        <p>Просмотр, изменение и удаление пользователей</p>
     </div>
 
     <div class="users-list">
         <div th:each="user : ${users}" class="user-card">
             <div class="user-info">
-                <a th:text="${user.getName() + ', ' + user.getAge()}"
+                <a th:text="${user.getUsername() + ', ' + user.getAge()}"
                    class="user-link">user</a>
             </div>
 
@@ -173,6 +185,11 @@
 
     <div style="text-align: center;">
         <a href="/new" class="btn btn-create">Create New User</a>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn btn-logout">Logout</button>
+        </form>
     </div>
 </div>
 </body>

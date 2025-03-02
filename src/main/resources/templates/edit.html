@@ -69,6 +69,18 @@
         button:hover {
             background-color: #0056b3;
         }
+
+        .btn-logout {
+            background-color: cyan;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .btn-logout:hover {
+            background-color: cyan;
+        }
     </style>
 </head>
 <body>
@@ -86,7 +98,7 @@
                     minlength="2"
                     placeholder="Enter name"
             />
-            <div class="error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{username}"></div>
+            <div class="error-message" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
         </div>
 
         <div class="form-group">
@@ -116,6 +128,11 @@
         </div>
 
         <button type="submit">Update User</button>
+        <div style="text-align: center; margin-top: 20px;">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn btn-logout">Logout</button>
+            </form>
+        </div>
     </form>
 </div>
 </body>
