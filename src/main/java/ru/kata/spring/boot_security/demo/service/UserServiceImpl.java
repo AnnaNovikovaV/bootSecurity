@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import ru.kata.spring.boot_security.demo.userMapper.UserMapper;
 
@@ -23,8 +22,6 @@ import java.util.stream.Collectors;
 
 
 @Service
-//@RequiredArgsConstructor
-//@FieldDefaults(level = PRIVATE, makeFinal = true)
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService, UserDetailsService {
 
@@ -48,8 +45,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
        return repository.findByUsername(username);
     }
     public User findById(int id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setPassword("");
+        return user;
     }
 
     @Transactional
@@ -61,9 +59,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     public void update(User updatedUser) {
         User user = findById(updatedUser.getId());
-        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
-            user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
-        }
         repository.save(mapper.toUser(user, updatedUser));
     }
 
