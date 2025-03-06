@@ -13,7 +13,7 @@ public interface UserService {
 
     void save(User user);
 
-    User findById(int id);
+    User findForEdit(int id);
 
     void delete(int id);
 

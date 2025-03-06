@@ -44,9 +44,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User getUserByUsername(String username) {
        return repository.findByUsername(username);
     }
-    public User findById(int id) {
+    public User findForEdit(int id) {
         User user = repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
         user.setPassword("");
+        return user;
+    }
+
+    public User findById(int id) {
+        User user = repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
         return user;
     }
 

@@ -46,7 +46,7 @@ public class AdminController {
 
     @GetMapping("/edit")
     public String edit(Model model, @RequestParam("id") int id) {
-        model.addAttribute("user", userService.findById(id));
+        model.addAttribute("user", userService.findForEdit(id));
         return "edit";
     }
 

@@ -21,7 +21,9 @@ public class UserMapper {
         entity.setAge(updatedUser.getAge());
         entity.setEmail(updatedUser.getEmail());
         if (!StringUtils.isEmpty(updatedUser.getPassword())) {
-            entity.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+            if (!passwordEncoder.matches(updatedUser.getPassword(), entity.getPassword())) {
+                entity.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+            }
         }
         return entity;
     }
