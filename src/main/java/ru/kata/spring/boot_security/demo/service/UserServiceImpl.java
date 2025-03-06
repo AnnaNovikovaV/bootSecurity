@@ -1,11 +1,13 @@
 package ru.kata.spring.boot_security.demo.service;
 
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
@@ -27,13 +29,15 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     UserRepository repository;
-    RoleRepository roleRepository;
+    RoleService roleService;
+    PasswordEncoder passwordEncoder;
     UserMapper mapper;
 
-    public UserServiceImpl(UserRepository repository, RoleRepository roleRepository, UserMapper mapper) {
+    public UserServiceImpl(UserRepository repository, RoleService roleService, UserMapper mapper, @Lazy PasswordEncoder passwordEncoder) {
         this.repository = repository;
-        this.roleRepository = roleRepository;
+        this.roleService = roleService;
         this.mapper = mapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> findAll() {
@@ -50,12 +54,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     public void save(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         repository.save(user);
     }
 
     @Transactional
     public void update(User updatedUser) {
         User user = findById(updatedUser.getId());
+        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        }
         repository.save(mapper.toUser(user, updatedUser));
     }
 

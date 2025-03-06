@@ -11,7 +11,11 @@ public class UserMapper {
         entity.setUsername(updatedUser.getUsername());
         entity.setAge(updatedUser.getAge());
         entity.setEmail(updatedUser.getEmail());
-        entity.setPassword(updatedUser.getPassword());
+
+        if (updatedUser.getPassword() == null || updatedUser.getPassword().isEmpty()) {
+            entity.setPassword(entity.getPassword());
+        }
+//        entity.setPassword(updatedUser.getPassword());
         return entity;
     }
 }

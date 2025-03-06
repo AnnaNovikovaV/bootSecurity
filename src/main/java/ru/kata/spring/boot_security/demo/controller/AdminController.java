@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 
@@ -14,13 +15,17 @@ public class AdminController {
 
     UserService userService;
 
-    public AdminController(UserService userService) {
+    RoleService roleService;
+
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping("/admin")
     public String index(Model model) {
         model.addAttribute("users", userService.findAll());
+        model.addAttribute("roles", roleService.findAll());
         return "index";
     }
 

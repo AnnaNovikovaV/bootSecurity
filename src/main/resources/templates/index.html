@@ -75,6 +75,21 @@
             color: #3498db;
         }
 
+        .roles {
+            margin-top: 5px;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        .role {
+            display: inline-block;
+            margin-right: 5px;
+            padding: 3px 8px;
+            background-color: #ecf0f1;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
         .actions {
             display: flex;
             gap: 10px;
@@ -166,6 +181,9 @@
             <div class="user-info">
                 <a th:text="${user.getUsername() + ', ' + user.getAge()}"
                    class="user-link">user</a>
+                <div class="roles">
+                    <span th:each="role : ${user.getRoles()}" class="role" th:text="${role.getName()}">ROLE_USER</span>
+                </div>
             </div>
 
             <div class="actions">
